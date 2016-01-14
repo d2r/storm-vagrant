@@ -9,10 +9,10 @@ drpc.servers:
 
 #supervisor.run.worker.as.user: true
 #topology.storm.user: "storm"
-nimbus.authorizer: "backtype.storm.security.auth.authorizer.SimpleACLAuthorizer"
-storm.thrift.transport: "backtype.storm.security.auth.kerberos.KerberosSaslTransportPlugin"
+nimbus.authorizer: "org.apache.storm.security.auth.authorizer.SimpleACLAuthorizer"
+storm.thrift.transport: "org.apache.storm.security.auth.kerberos.KerberosSaslTransportPlugin"
 java.security.auth.login.config: "/vagrant/testuser2_jaas.conf"
-storm.principal.tolocal: "backtype.storm.security.auth.KerberosPrincipalToLocal"
+storm.principal.tolocal: "org.apache.storm.security.auth.KerberosPrincipalToLocal"
 storm.zookeeper.superACL: "sasl:storm"
 
 nimbus.supervisor.users:

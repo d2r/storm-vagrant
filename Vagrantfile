@@ -8,7 +8,7 @@ require 'uri'
 # if the file is not already in the same directory as the Vagrantfile.
 # to supply a custom build, drop it next to the Vagrantfile and make sure the file name
 # matches the file in the URL.
-STORM_DIST_URL = "https://people.apache.org/~ptgoetz/storm/security/apache-storm-0.9.3-incubating-SNAPSHOT.zip"
+STORM_DIST_URL = "https://dist.apache.org/repos/dist/dev/storm/apache-storm-2.0.0-SNAPSHOT/apache-storm-2.0.0-SNAPSHOT.zip"
 
 STORM_SUPERVISOR_COUNT = 2
 STORM_BOX_TYPE = "hashicorp/precise64"
@@ -34,9 +34,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     node.vm.provision "shell", path: "bind/install-bind.sh"
     node.vm.provision "shell", path: "kerberos/install-kdc.sh"
     node.vm.provision "shell", path: "zookeeper/install-zookeeper.sh"
-    node.vm.provider "vmware_fusion" do |v|
-      v.vmx["memsize"] = "1024"
-      #v.vmx["numvcpus"] = "2"
+    node.vm.provider "virtualbox" do |v|
+      v.memory = 2048
     end
   end
 
@@ -50,6 +49,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     node.vm.provision "shell", path: "config-supervisord.sh", args: "ui"
     node.vm.provision "shell", path: "config-supervisord.sh", args: "drpc"
     node.vm.provision "shell", path: "start-supervisord.sh"
+    node.vm.provider "virtualbox" do |v|
+      v.memory = 2048
+    end
   end
 
   (1..STORM_SUPERVISOR_COUNT).each do |n|
@@ -62,6 +64,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.provision "shell", path: "config-supervisord.sh", args: "supervisor"
       node.vm.provision "shell", path: "config-supervisord.sh", args: "logviewer"
       node.vm.provision "shell", path: "start-supervisord.sh"
+      node.vm.provider "virtualbox" do |v|
+        v.memory = 2048
+      end
     end
   end
   # on virutalbox /vagrant/keytabs doesn't have permissions for the respective users
